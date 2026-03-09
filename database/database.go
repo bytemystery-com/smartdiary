@@ -25,6 +25,7 @@
 package database
 
 import (
+	"bytemystery-com/smartdiary/daywidget"
 	"database/sql"
 	"encoding/json"
 	"errors"
@@ -32,8 +33,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"time"
-
-	"bytemystery-com/smartdiary/daywidget"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/storage"
@@ -367,22 +366,25 @@ func (d *Db) GetSimpleEntryByDate(date time.Time) (*EntryDataSimpleType, error) 
 	return &e, nil
 }
 
-func (d *Db) Search(text string) ([]*EntryDataType, error) {
+func (d *Db) Search(text string, limit int) ([]*EntryDataType, error) {
 	if !d.IsOpen() {
 		return nil, errors.New("database not open")
+	}
+	if limit <= 0 {
+		limit = -1
 	}
 	var ok bool
 	var p *sql.Stmt
 	var err error
 	p, ok = d.prepStm["search"]
 	if !ok {
-		p, err = d.sql.Prepare(`SELECT id, date, data, categoryId1, categoryId2, colorMode, mark, protected, ts FROM entry WHERE data LIKE ? COLLATE NOCASE ORDER BY date DESC`)
+		p, err = d.sql.Prepare(`SELECT id, date, data, categoryId1, categoryId2, colorMode, mark, protected, ts FROM entry WHERE data LIKE ? COLLATE NOCASE ORDER BY date DESC LIMIT ?`)
 		if err != nil {
 			return nil, err
 		}
 		d.prepStm["search"] = p
 	}
-	r, err := p.Query(text)
+	r, err := p.Query(text, limit)
 	if err != nil {
 		return nil, err
 	}

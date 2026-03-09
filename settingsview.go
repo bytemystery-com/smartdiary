@@ -52,6 +52,7 @@ type SettingsView struct {
 	editCategory   int64
 	catEdit        *widget.Entry
 	exportMode     *widget.Select
+	maxResults     *widget.Entry
 }
 
 func NewSettingsView() *SettingsView {
@@ -102,6 +103,10 @@ func NewSettingsView() *SettingsView {
 		return id == s.editCategory
 	}, true, true)
 
+	s.maxResults = widget.NewEntry()
+	s.maxResults.SetPlaceHolder(lang.X("Max search results", "Max search results"))
+	s.maxResults.OnChanged = util.GetNumberFilter(s.maxResults, nil)
+
 	form := container.New(layout.NewFormLayout(),
 		widget.NewLabel(lang.X("settings.week_start", "Start of week")), s.weekStart,
 		colorlabel.NewColorLabel(lang.X("settings.week_first_special", "First special day"), Gui.Theme.GetSpecialColor("txt_color_special_0"), nil, 1.0), s.specialDay1,
@@ -111,6 +116,7 @@ func NewSettingsView() *SettingsView {
 		widget.NewLabel(lang.X("settings.default_protected", "Default protected")), s.defProtected,
 		widget.NewLabel(lang.X("settings.change_password", "Change password")), changePassword,
 		widget.NewLabel(lang.X("settings.password_expire", "Password expire\n[min]")), s.passwordExpire,
+		widget.NewLabel(lang.X("settings.max_search_results", "Max. results")), s.maxResults,
 		catContentEdit, s.catEdit,
 	)
 	labelExportMode := widget.NewLabel(lang.X("settings.exportmode", "Export file mode"))
@@ -177,6 +183,10 @@ func (s *SettingsView) doSave() {
 		exportMode = EXPORTMODE_ASK
 	}
 	Gui.Settings.ExportMode = exportMode
+	v, err := strconv.Atoi(s.maxResults.Text)
+	if err == nil {
+		Gui.Settings.MaxSearchResults = v
+	}
 
 	Gui.Settings.Store()
 
@@ -227,6 +237,7 @@ func (s *SettingsView) Init() {
 		selIndex = 2
 	}
 	s.exportMode.SetSelectedIndex(selIndex)
+	s.maxResults.Text = strconv.Itoa(Gui.Settings.MaxSearchResults)
 }
 
 func (s *SettingsView) GetContent() fyne.CanvasObject {

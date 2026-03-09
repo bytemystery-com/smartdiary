@@ -1,7 +1,7 @@
 ![alt text](/assets/icons/icon.png "Logo")
 
 # SmartDiary
-SmartDiary is an app runnig on Anroid, Linux and Windows. SmartDiary is a little diary application.  
+SmartDiary is a little diary application runnig on Anroid, Linux and Windows. 
 For every day you can add a text entry. For highlighting entries you can choose between colors and symbols, every color can be labeled with a custom text. There are 13 colors available.  
 You can set a password and protect entries so that for viewing / modifying these entries the password must be given.  
 You can search in the diary for expressions. You can export the whole diary to JSON format.  

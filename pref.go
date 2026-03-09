@@ -35,32 +35,35 @@ const (
 )
 
 const (
-	PREF_THEMEVARIANT_KEY            = "theme"
-	PREF_THEMEVARIANT_VALUE          = -1
-	PREF_FIRSTDAYOFWEEK_KEY          = "firstdayofweek"
-	PREF_FIRSTDAYOFWEEK_VALUE        = 1
-	PREF_SPECIALWEEKDAY_0_KEY        = "specialweekday_0"
-	PREF_SPECIALWEEKDAY_0_VALUE      = 0
-	PREF_SPECIALWEEKDAY_1_KEY        = "specialweekday_1"
-	PREF_SPECIALWEEKDAY_1_VALUE      = 6
-	PREF_SPECIALWEEKDAY_2_KEY        = "specialweekday_2"
-	PREF_SPECIALWEEKDAY_2_VALUE      = 2
-	PREF_NEWENTRY_CATEGORY_KEY       = "newentrycategory"
-	PREF_NEWENTRY_CATEGORY_VALUE     = -1
-	PREF_NEWENTRY_PROTECTED_KEY      = "newentryprotected"
-	PREF_NEWENTRY_PROTECTED_VALUE    = false
-	PREF_PASSWORD_KEY                = "password"
-	PREF_PASSWORD_VALUE              = ""
-	PREF_PASSWORD_EXPIRE_KEY         = "passwordexpire"
-	PREF_PASSWORD_EXPIRE_VALUE       = 5 // min
-	PREF_UPDATE_LAST_CHECK_KEY       = "lastupdatecheck"
-	PREF_UPDATE_LAST_CHECK_VALUE     = 0
-	PREF_UPDATE_CHECK_INTERVAL_KEY   = "updatecheckinterval"
-	PREF_UPDATE_CHECK_INTERVAL_VALUE = 48
-	PREF_UPDATE_CHECK_AUTO_KEY       = "autoupdatecheck"
-	PREF_UPDATE_CHECK_AUTO_VALUE     = true
-	PREF_EXPORTMODE_KEY              = "exportmode"
-	PREF_EXPORMODE_VALUE             = EXPORTMODE_ASK
+	PREF_THEMEVARIANT_KEY               = "theme"
+	PREF_THEMEVARIANT_VALUE             = -1
+	PREF_FIRSTDAYOFWEEK_KEY             = "firstdayofweek"
+	PREF_FIRSTDAYOFWEEK_VALUE           = 1
+	PREF_SPECIALWEEKDAY_0_KEY           = "specialweekday_0"
+	PREF_SPECIALWEEKDAY_0_VALUE         = 0
+	PREF_SPECIALWEEKDAY_1_KEY           = "specialweekday_1"
+	PREF_SPECIALWEEKDAY_1_VALUE         = 6
+	PREF_SPECIALWEEKDAY_2_KEY           = "specialweekday_2"
+	PREF_SPECIALWEEKDAY_2_VALUE         = 2
+	PREF_NEWENTRY_CATEGORY_KEY          = "newentrycategory"
+	PREF_NEWENTRY_CATEGORY_VALUE        = -1
+	PREF_NEWENTRY_PROTECTED_KEY         = "newentryprotected"
+	PREF_NEWENTRY_PROTECTED_VALUE       = false
+	PREF_PASSWORD_KEY                   = "password"
+	PREF_PASSWORD_VALUE                 = ""
+	PREF_PASSWORD_EXPIRE_KEY            = "passwordexpire"
+	PREF_PASSWORD_EXPIRE_VALUE          = 5 // min
+	PREF_UPDATE_LAST_CHECK_KEY          = "lastupdatecheck"
+	PREF_UPDATE_LAST_CHECK_VALUE        = 0
+	PREF_UPDATE_CHECK_INTERVAL_KEY      = "updatecheckinterval"
+	PREF_UPDATE_CHECK_INTERVAL_VALUE    = 48
+	PREF_UPDATE_CHECK_AUTO_KEY          = "autoupdatecheck"
+	PREF_UPDATE_CHECK_AUTO_VALUE        = true
+	PREF_EXPORTMODE_KEY                 = "exportmode"
+	PREF_EXPORMODE_VALUE                = EXPORTMODE_ASK
+	PREF_MAXSEARCHRESULTS_KEY           = "maxsearchresults"
+	PREF_MAXSEARCHRESULTS_VALUE_MOBILE  = 50
+	PREF_MAXSEARCHRESULTS_VALUE_DESKTOP = 150
 )
 
 type Preferences struct {
@@ -77,6 +80,7 @@ type Preferences struct {
 	UpdateCheckInterval int
 	AutoUpdateCheck     bool
 	ExportMode          ExportModeType
+	MaxSearchResults    int
 }
 
 func init() {
@@ -99,6 +103,11 @@ func NewPreferences() *Preferences {
 		AutoUpdateCheck:     Gui.App.Preferences().BoolWithFallback(PREF_UPDATE_CHECK_AUTO_KEY, PREF_UPDATE_CHECK_AUTO_VALUE),
 		ExportMode:          ExportModeType(Gui.App.Preferences().IntWithFallback(PREF_EXPORTMODE_KEY, int(PREF_EXPORMODE_VALUE))),
 	}
+	if Gui.IsDesktop {
+		p.MaxSearchResults = Gui.App.Preferences().IntWithFallback(PREF_MAXSEARCHRESULTS_KEY, PREF_MAXSEARCHRESULTS_VALUE_DESKTOP)
+	} else {
+		p.MaxSearchResults = Gui.App.Preferences().IntWithFallback(PREF_MAXSEARCHRESULTS_KEY, PREF_MAXSEARCHRESULTS_VALUE_MOBILE)
+	}
 	return p
 }
 
@@ -117,6 +126,7 @@ func (p *Preferences) Store() {
 	pref.SetInt(PREF_UPDATE_CHECK_INTERVAL_KEY, p.UpdateCheckInterval)
 	pref.SetBool(PREF_UPDATE_CHECK_AUTO_KEY, p.AutoUpdateCheck)
 	pref.SetInt(PREF_EXPORTMODE_KEY, int(p.ExportMode))
+	pref.SetInt(PREF_MAXSEARCHRESULTS_KEY, p.MaxSearchResults)
 }
 
 func (p *Preferences) SavePasswd(pass []byte) {

@@ -25,13 +25,12 @@
 package main
 
 import (
-	"fmt"
-	"image"
-	"strings"
-
 	"bytemystery-com/smartdiary/database"
 	"bytemystery-com/smartdiary/daywidget"
 	"bytemystery-com/smartdiary/searchlayout"
+	"fmt"
+	"image"
+	"strings"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -284,7 +283,7 @@ func (s *SearchView) Search(search string) bool {
 	if search == "" {
 		search = s.lastSearch
 	}
-	data, err := Database.Search("%" + search + "%")
+	data, err := Database.Search("%"+search+"%", Gui.Settings.MaxSearchResults)
 	if err != nil {
 		UIErrorHandler(err)
 		return setSearchView
