@@ -11,7 +11,7 @@ SmartDiary is written in [Go](https://go.dev/) and uses [Fyne](https://fyne.io/)
 Author: Reiner Pröls  
 Licence: MIT  
 
-## Usage of Smartdiary
+## Usage of SmartDiary
 Open the settings. Set some properties fitting your needs. Then you have to give text for categories.  
 Choose a color and in the text field right give a new text.
 Press ENTER to take over the category. Do not forget to press the Save button to store the changed value.

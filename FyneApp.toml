@@ -3,7 +3,7 @@ Icon = "assets/icons/icon.png"
 Name = "SmartDiary"
 ID = "com.bytemystery.smartdiary2"
 Version = "0.3.3"
-Build = 202
+Build = 209
 
 [LinuxAndBSD]
 GenericName = "SmartDiary"

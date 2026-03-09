@@ -31,9 +31,9 @@ import (
 	"strconv"
 	"time"
 
-	"myapp/calendarlayout"
-	"myapp/database"
-	"myapp/daywidget"
+	"bytemystery-com/smartdiary/calendarlayout"
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/daywidget"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"

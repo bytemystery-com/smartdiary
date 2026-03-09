@@ -37,9 +37,9 @@ import (
 	"strings"
 	"time"
 
-	"myapp/database"
-	"myapp/mytheme"
-	"myapp/util"
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/mytheme"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -188,7 +188,7 @@ func main() {
 	if _, ok := Gui.App.(desktop.App); ok {
 		Gui.IsDesktop = true
 	}
-	Gui.MainWindow = Gui.App.NewWindow("MyApp")
+	Gui.MainWindow = Gui.App.NewWindow("SmartDiary")
 	Gui.MainWindow.SetIcon(Gui.Icon)
 
 	Gui.toolToggleThema = widget.NewToolbarAction(theme.BrokenImageIcon(), func() {

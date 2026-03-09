@@ -27,8 +27,8 @@ package daywidget
 import (
 	"image/color"
 
-	"myapp/mytheme"
-	"myapp/util"
+	"bytemystery-com/smartdiary/mytheme"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"

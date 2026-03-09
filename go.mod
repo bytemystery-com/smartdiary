@@ -1,4 +1,4 @@
-module myapp
+module bytemystery-com/smartdiary
 
 go 1.26.1
 

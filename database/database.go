@@ -33,7 +33,7 @@ import (
 	"strconv"
 	"time"
 
-	"myapp/daywidget"
+	"bytemystery-com/smartdiary/daywidget"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/storage"
@@ -43,7 +43,6 @@ import (
 const (
 	CURRENT_VERSION              = 1
 	DEF_NUMBER_OF_CATEGORIES     = 15
-	DEF_NUMBER_OF_ENTRIES        = 35
 	DEF_NUMBER_OF_SEARCH_RESULTS = 25
 )
 

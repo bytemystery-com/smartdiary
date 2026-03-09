@@ -25,8 +25,8 @@
 package searchlayout
 
 import (
-	"myapp/daywidget"
-	"myapp/mytheme"
+	"bytemystery-com/smartdiary/daywidget"
+	"bytemystery-com/smartdiary/mytheme"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/theme"

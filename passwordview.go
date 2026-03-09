@@ -28,7 +28,7 @@ import (
 	"errors"
 	"time"
 
-	"myapp/util"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"

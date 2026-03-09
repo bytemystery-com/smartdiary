@@ -29,9 +29,9 @@ import (
 	"image"
 	"strings"
 
-	"myapp/database"
-	"myapp/daywidget"
-	"myapp/searchlayout"
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/daywidget"
+	"bytemystery-com/smartdiary/searchlayout"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"

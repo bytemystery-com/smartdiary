@@ -8,7 +8,7 @@
   "export.ok.msg": "Daten wurden erfolgreich exportiert !",
   "export.ok.title": "Exportieren",
   "export.overwrite": "Überschreiben",
-  "import.confirm.msg": "Import data and drop database with %d entries ?",
+  "import.confirm.msg": "Daten importieren und bestehende Datenbank mit %d Einträgen löschen ?",
   "import.confirm.title": "Import data",
   "import.ok.msg": "Daten wurden erfolgreich importiert !",
   "import.ok.title": "Importieren",

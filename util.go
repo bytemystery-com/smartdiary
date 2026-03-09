@@ -33,10 +33,10 @@ import (
 	"runtime"
 	"runtime/debug"
 
-	"myapp/database"
-	"myapp/menubutton"
-	"myapp/selectlayout"
-	"myapp/util"
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/menubutton"
+	"bytemystery-com/smartdiary/selectlayout"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"

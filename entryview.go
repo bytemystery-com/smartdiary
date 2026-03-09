@@ -32,11 +32,11 @@ import (
 	"strings"
 	"time"
 
-	"myapp/database"
-	"myapp/daywidget"
-	"myapp/entrylayout"
-	"myapp/menubutton"
-	"myapp/util"
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/daywidget"
+	"bytemystery-com/smartdiary/entrylayout"
+	"bytemystery-com/smartdiary/menubutton"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"

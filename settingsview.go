@@ -27,7 +27,7 @@ package main
 import (
 	"strconv"
 
-	"myapp/util"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
