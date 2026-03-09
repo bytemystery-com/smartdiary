@@ -64,7 +64,7 @@
   "settings.week_second_special": "2. spezieller Tag",
   "settings.week_start": "Wochenstart",
   "settings.week_third_special": "3. spezieller Tag",
-  "update.msg": "Eine neue Version ist verfügbar !",
+  "update.msg": "Eine neue Version %s ist verfügbar !",
   "update.nonew": "Es läuft bereits die aktuelle Version.",
   "update.notify.msg": "Neue Version %s ist verfügbar",
   "update.notify.title": "Neue Version",
