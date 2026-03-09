@@ -8,6 +8,8 @@
     "export.ok.msg": "Data were successfully exported !",
     "export.ok.title": "Export",
     "export.overwrite": "Overwrite existing",
+    "import.confirm.msg": "Import data and drop database with %d entries ?",
+    "import.confirm.title": "Import data",
     "import.ok.msg": "Data were successfully imported !",
     "import.ok.title": "Import",
     "info.build_debug": "Debug",

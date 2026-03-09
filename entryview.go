@@ -265,7 +265,7 @@ func (e *EntryView) checkPassword(date time.Time, doIt func(ok bool)) {
 }
 
 func (e *EntryView) rowsNeeded(str string) int {
-	n := strings.Count(str, "\n")
+	n := strings.Count(str, "\n") + 1
 	lines := strings.Split(str, "\n")
 	w := e.entry.Size().Width - 2*theme.InnerPadding()
 	if w > 0 {

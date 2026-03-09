@@ -121,17 +121,9 @@ var (
 	Gui          = GUI{}
 )
 
-var Months = []string{
-	lang.X("month_0", "January"), lang.X("month_1", "February"), lang.X("month_2", "March"),
-	lang.X("month_3", "April"), lang.X("month_4", "May"), lang.X("month_5", "June"),
-	lang.X("month_6", "July"), lang.X("month_7", "August"), lang.X("month_8", "September"),
-	lang.X("month_9", "October"), lang.X("month_10", "November"), lang.X("month_11", "December"),
-}
+var Months = []string{}
 
-var Weekdays = []string{
-	lang.X("weekday_0", "Su"), lang.X("weekday_1", "Mo"), lang.X("weekday_2", "Tu"),
-	lang.X("weekday_3", "We"), lang.X("weekday_4", "Th"), lang.X("weekday_5", "Fr"), lang.X("weekday_6", "Sa"),
-}
+var Weekdays = []string{}
 
 func forceLanguage() {
 	if *Flags.language == "" {
@@ -157,6 +149,17 @@ func main() {
 
 	loadTranslations(assets, "assets/lang")
 	forceLanguage()
+	Months = []string{
+		lang.X("month_0", "January"), lang.X("month_1", "February"), lang.X("month_2", "March"),
+		lang.X("month_3", "April"), lang.X("month_4", "May"), lang.X("month_5", "June"),
+		lang.X("month_6", "July"), lang.X("month_7", "August"), lang.X("month_8", "September"),
+		lang.X("month_9", "October"), lang.X("month_10", "November"), lang.X("month_11", "December"),
+	}
+
+	Weekdays = []string{
+		lang.X("weekday_0", "Su"), lang.X("weekday_1", "Mo"), lang.X("weekday_2", "Tu"),
+		lang.X("weekday_3", "We"), lang.X("weekday_4", "Th"), lang.X("weekday_5", "Fr"), lang.X("weekday_6", "Sa"),
+	}
 
 	//  go tool pprof http://localhost:6060/debug/pprof/profile?seconds=30
 	go func() {
@@ -233,8 +236,14 @@ func main() {
 		slog.Error("open database error", "err", err)
 		return
 	}
+	defer Database.Close()
 	UpdateCategoryData()
-
+	/*
+		err = Database.ImportFromCSV("/home/reiner/Dropbox/private/export_entries.csv")
+		if err != nil {
+			panic("")
+		}
+	*/
 	Gui.mainView = NewMainView()
 	Gui.entryView = NewEntryView()
 	Gui.searchView = NewSearchView()
@@ -309,6 +318,9 @@ func setContent(c fyne.CanvasObject) {
 func ShowMainView(date *time.Time) {
 	Gui.mainView.SetDate(date)
 	setContent(Gui.mainView.GetContent())
+	if Gui.Settings.AutoUpdateCheck {
+		CheckForUpdate(true)
+	}
 }
 
 func ShowEntryView(date *time.Time, fromSearch bool) {
@@ -319,7 +331,12 @@ func ShowEntryView(date *time.Time, fromSearch bool) {
 }
 
 func ShowSearch(search string) {
-	Gui.searchView.Search(search)
+	if Gui.searchView.Search(search) {
+		SetSearchView()
+	}
+}
+
+func SetSearchView() {
 	setContent(Gui.searchView.GetContent())
 }
 
@@ -518,15 +535,27 @@ func doExport(fDone func(error)) {
 
 func Import() {
 	doPasswordCheck(func(ok bool) {
-		doImport(func(err error) {
-			if err != nil {
-				UIErrorHandler(err)
-			} else {
-				SendNotification(lang.X("import.ok.title", "Import"), lang.X("import.ok.msg", "Data were successfully imported !"))
-				UpdateCategoryData()
-				Gui.mainView.SetDate(nil)
-			}
-		})
+		if !ok {
+			return
+		}
+		n, _ := Database.GetNumberOfEntries()
+		dia := dialog.NewConfirm(lang.X("import.confirm.title", "Import data"),
+			fmt.Sprintf(lang.X("import.confirm.msg", "Import data and drop database with %d entries ?"), n), func(ok bool) {
+				if !ok {
+					return
+				}
+				doImport(func(err error) {
+					if err != nil {
+						UIErrorHandler(err)
+					} else {
+						SendNotification(lang.X("import.ok.title", "Import"), lang.X("import.ok.msg", "Data were successfully imported !"))
+						UpdateCategoryData()
+						Gui.mainView.SetDate(nil)
+					}
+				})
+			}, Gui.MainWindow)
+		dia.SetConfirmImportance(widget.DangerImportance)
+		dia.Show()
 	})
 }
 

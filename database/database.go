@@ -121,19 +121,19 @@ func (d *Db) create() error {
 	if err != nil {
 		return err
 	}
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Normal', '#FFFF8CFF', 100)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Besonderes', '#99CCFFFF', 200)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Date', '#FFC2C2FF', 300)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Urlaub', '#D4FFB5FF', 400)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Feiertag', '#CCFFFFFF', 500)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Ausgehen', '#D6B9F4FF', 600)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Termin', '#E3A86FFF', 700)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Sonstiges', '#C5C5C5FF', 800)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Vorverkauf', '#92C392FF', 900)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Special', '#FFC41AFF', 1000)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Neutral', '#fe6d6eFF', 1100)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Neutral', '#FFFFFFFF', 1200)`)
-	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Neutral', '#ff7aebFF', 1300)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 1', '#FFFF8CFF', 100)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 2', '#99CCFFFF', 200)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 3', '#FFC2C2FF', 300)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 4', '#D4FFB5FF', 400)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 5', '#CCFFFFFF', 500)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 6', '#D6B9F4FF', 600)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 7', '#E3A86FFF', 700)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 8', '#C5C5C5FF', 800)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 9', '#92C392FF', 900)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 10', '#FFC41AFF', 1000)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 11', '#fe6d6eFF', 1100)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 12', '#FFFFFFFF', 1200)`)
+	_, err = d.sql.Exec(`INSERT INTO category (name, color, orderIndex) VALUES ('Category 13', '#ff7aebFF', 1300)`)
 	if err != nil {
 		return err
 	}
@@ -147,10 +147,12 @@ func (d *Db) create() error {
 	if err != nil {
 		return err
 	}
-	_, err = d.sql.Exec(`CREATE INDEX idx_entry_data_categoryId1 ON entry(data ASC, categoryId1)`)
-	if err != nil {
-		return err
-	}
+	/*
+		_, err = d.sql.Exec(`CREATE INDEX idx_entry_data_categoryId1 ON entry(data ASC, categoryId1)`)
+		if err != nil {
+			return err
+		}
+	*/
 	_, err = d.sql.Exec(`CREATE TRIGGER entry_set_ts_update AFTER UPDATE ON entry FOR EACH ROW BEGIN UPDATE entry SET ts = CURRENT_TIMESTAMP WHERE id=OLD.id; END`)
 	if err != nil {
 		return err
@@ -210,6 +212,9 @@ func (d *Db) Close() {
 }
 
 func (d *Db) UpdateCategory(data *CategoryDataType) error {
+	if !d.IsOpen() {
+		return errors.New("database is not open")
+	}
 	var ok bool
 	var p *sql.Stmt
 	var err error
@@ -252,7 +257,7 @@ func (d *Db) GetNumberOfEntries() (int, error) {
 }
 
 func (d *Db) GetCategories() ([]*CategoryDataType, error) {
-	if d.sql == nil {
+	if !d.IsOpen() {
 		return nil, errors.New("database not open")
 	}
 	q, err := d.sql.Query(`SELECT id, name, color, orderIndex, ts FROM category ORDER BY orderIndex ASC`)
@@ -272,7 +277,7 @@ func (d *Db) GetCategories() ([]*CategoryDataType, error) {
 }
 
 func (d *Db) InsertOrUpdateEntry(data *EntryDataType) error {
-	if d.sql == nil {
+	if !d.IsOpen() {
 		return errors.New("database not open")
 	}
 	var ok bool
@@ -301,7 +306,7 @@ func (d *Db) InsertOrUpdateEntry(data *EntryDataType) error {
 }
 
 func (d *Db) GetEntryByDate(date time.Time) (*EntryDataType, error) {
-	if d.sql == nil {
+	if !d.IsOpen() {
 		return nil, errors.New("database not open")
 	}
 	var ok bool
@@ -333,7 +338,7 @@ func (d *Db) GetEntryByDate(date time.Time) (*EntryDataType, error) {
 }
 
 func (d *Db) GetSimpleEntryByDate(date time.Time) (*EntryDataSimpleType, error) {
-	if d.sql == nil {
+	if !d.IsOpen() {
 		return nil, errors.New("database not open")
 	}
 	var ok bool
@@ -372,7 +377,7 @@ func (d *Db) Search(text string) ([]*EntryDataType, error) {
 	var err error
 	p, ok = d.prepStm["search"]
 	if !ok {
-		p, err = d.sql.Prepare(`SELECT id, date, data, categoryId1, categoryId2, colorMode, mark, protected, ts FROM entry WHERE data LIKE ? COLLATE NOCASE ORDER BY date COLLATE NOCASE ASC`)
+		p, err = d.sql.Prepare(`SELECT id, date, data, categoryId1, categoryId2, colorMode, mark, protected, ts FROM entry WHERE data LIKE ? COLLATE NOCASE ORDER BY date DESC`)
 		if err != nil {
 			return nil, err
 		}
@@ -409,6 +414,9 @@ func (d *Db) Search(text string) ([]*EntryDataType, error) {
 }
 
 func (d *Db) DeleteEntry(id int64) error {
+	if !d.IsOpen() {
+		return errors.New("database not open")
+	}
 	var ok bool
 	var p *sql.Stmt
 	var err error
@@ -545,3 +553,54 @@ func (d *Db) ImportJson(str string) error {
 	}
 	return tx.Commit()
 }
+
+// Import from old SmartDiary
+/*
+func (d *Db) ImportFromCSV(file string) error {
+	f, err := os.Open(file)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	r := csv.NewReader(f)
+	r.Comma = ';'   // Trennzeichen ändern
+	r.Comment = '#' // Kommentarzeilen
+	r.TrimLeadingSpace = true
+
+	for {
+		record, err := r.Read()
+		if err != nil {
+			break
+		}
+		entry := EntryDataType{}
+		entry.Date, err = time.Parse(time.DateOnly, record[0])
+		if err != nil {
+			return err
+		}
+		entry.Data = record[1]
+		id, err := strconv.Atoi(record[2])
+		if err != nil {
+			return err
+		}
+		entry.CategoryId1 = int64(id + 1)
+
+		protect, err := strconv.Atoi(record[3])
+		if err != nil {
+			return err
+		}
+		entry.Protected = (protect != 0)
+
+		mark, err := strconv.Atoi(record[4])
+		if err != nil {
+			return err
+		}
+		entry.Mark = mark
+		err = d.InsertOrUpdateEntry(&entry)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+*/

@@ -130,7 +130,7 @@ func NewSettingsView() *SettingsView {
 		CheckForUpdate(false)
 	})
 
-	ok := widget.NewButton(lang.X("ok", "Ok"), func() { s.doSave() })
+	ok := widget.NewButton(lang.X("save", "Save"), func() { s.doSave() })
 	ok.Importance = widget.HighImportance
 	cancel := widget.NewButton(lang.X("cancel", "Cancel"), func() { s.doCancel() })
 

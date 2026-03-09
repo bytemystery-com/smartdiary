@@ -279,14 +279,15 @@ func (s *SearchView) createIcon(icon *canvas.Raster, item *database.EntryDataTyp
 	}
 }
 
-func (s *SearchView) Search(search string) {
+func (s *SearchView) Search(search string) bool {
+	setSearchView := true
 	if search == "" {
 		search = s.lastSearch
 	}
 	data, err := Database.Search("%" + search + "%")
 	if err != nil {
 		UIErrorHandler(err)
-		return
+		return setSearchView
 	}
 	hasProtected := false
 	for _, item := range data {
@@ -302,17 +303,20 @@ func (s *SearchView) Search(search string) {
 	}
 
 	if hasProtected {
+		setSearchView = false
 		s.data = s.data[:0]
 		s.updateContent()
 
 		doPasswordCheck(func(ok bool) {
 			if ok {
+				SetSearchView()
 				load()
 			}
 		})
 	} else {
 		load()
 	}
+	return setSearchView
 }
 
 func (s *SearchView) GetContent() fyne.CanvasObject {
@@ -330,7 +334,7 @@ func (s *SearchView) ThemeChanged() {
 		if !ok {
 			return
 		}
-		txt, ok := c.Objects[0].(*canvas.Text)
+		txt, ok := c.Objects[1].(*canvas.Text)
 		if !ok {
 			return
 		}
