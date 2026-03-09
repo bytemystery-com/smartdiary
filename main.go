@@ -538,24 +538,15 @@ func Import() {
 		if !ok {
 			return
 		}
-		n, _ := Database.GetNumberOfEntries()
-		dia := dialog.NewConfirm(lang.X("import.confirm.title", "Import data"),
-			fmt.Sprintf(lang.X("import.confirm.msg", "Import data and drop database with %d entries ?"), n), func(ok bool) {
-				if !ok {
-					return
-				}
-				doImport(func(err error) {
-					if err != nil {
-						UIErrorHandler(err)
-					} else {
-						SendNotification(lang.X("import.ok.title", "Import"), lang.X("import.ok.msg", "Data were successfully imported !"))
-						UpdateCategoryData()
-						Gui.mainView.SetDate(nil)
-					}
-				})
-			}, Gui.MainWindow)
-		dia.SetConfirmImportance(widget.DangerImportance)
-		dia.Show()
+		doImport(func(err error) {
+			if err != nil {
+				UIErrorHandler(err)
+			} else {
+				SendNotification(lang.X("import.ok.title", "Import"), lang.X("import.ok.msg", "Data were successfully imported !"))
+				UpdateCategoryData()
+				Gui.mainView.SetDate(nil)
+			}
+		})
 	})
 }
 
@@ -581,10 +572,19 @@ func doImport(fDone func(error)) {
 			}
 			return
 		}
-		err = Database.ImportJson(string(data))
-		if fDone != nil {
-			fDone(err)
-		}
+		n, _ := Database.GetNumberOfEntries()
+		dia := dialog.NewConfirm(lang.X("import.confirm.title", "Import data"),
+			fmt.Sprintf(lang.X("import.confirm.msg", "Import data and drop database with %d entries ?"), n), func(ok bool) {
+				if !ok {
+					return
+				}
+				err = Database.ImportJson(string(data))
+				if fDone != nil {
+					fDone(err)
+				}
+			}, Gui.MainWindow)
+		dia.SetConfirmImportance(widget.DangerImportance)
+		dia.Show()
 	}, Gui.MainWindow)
 	dia.SetView(dialog.ListView)
 	if Gui.IsDesktop {
