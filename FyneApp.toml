@@ -1,0 +1,12 @@
+[Details]
+Icon = "assets/icons/icon.png"
+Name = "SmartDiary"
+ID = "com.bytemystery.smartdiary2"
+Version = "0.1.0"
+Build = 176
+
+[LinuxAndBSD]
+GenericName = "SmartDiary"
+Categories = ["Education"]
+Comment = "SmartDiary"
+Keywords = ["diary"]
