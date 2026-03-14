@@ -131,7 +131,7 @@ for tag in ${TAGS} ; do
         echo "Build windows ..."
         CGO_ENABLED=1 CXX=${CXX_WIN} CC=${CC_WIN} GOOS=windows GOARCH=amd64 fyne package --release --metadata buildts="${ts}" --tags ${tag}
         # GOOS=windows GOARCH=amd64 go build -ldflags="-s -w" .
-        rm "${SED_TXT}" >/dev/null
+        rm "${SED_TXT}" 2>/dev/null
         echo "s/<VERSION>/${VERSION}/g" >>"${SED_TXT}"
         echo "s/<DESCRIPTION>/${DESCRIPTION}/g" >>"${SED_TXT}"
         echo "s/<BUILD>/${BUILD}/g" >>"${SED_TXT}"
