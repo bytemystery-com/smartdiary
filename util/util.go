@@ -244,11 +244,6 @@ func FormatDateTime(ts time.Time, long bool) string {
 	}
 }
 
-type GitHubRelease struct {
-	TagName string `json:"tag_name"`
-	HTMLURL string `json:"html_url"`
-}
-
 func CheckForUpdate() (string, string, error) {
 	url := "https://api.github.com/repos/bytemystery-com/smartdiary/releases/latest"
 	resp, err := http.Get(url)
@@ -259,6 +254,11 @@ func CheckForUpdate() (string, string, error) {
 
 	if resp.StatusCode != 200 {
 		return "", "", fmt.Errorf("HTTP %d", resp.StatusCode)
+	}
+
+	type GitHubRelease struct {
+		TagName string `json:"tag_name"`
+		HTMLURL string `json:"html_url"`
 	}
 
 	var release GitHubRelease
