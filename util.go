@@ -25,10 +25,6 @@
 package main
 
 import (
-	"bytemystery-com/smartdiary/database"
-	"bytemystery-com/smartdiary/menubutton"
-	"bytemystery-com/smartdiary/selectlayout"
-	"bytemystery-com/smartdiary/util"
 	"embed"
 	"errors"
 	"fmt"
@@ -36,6 +32,11 @@ import (
 	"net/url"
 	"runtime"
 	"runtime/debug"
+
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/menubutton"
+	"bytemystery-com/smartdiary/selectlayout"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -255,7 +256,7 @@ func ShowExportTypeDialog(f func(overwrite bool)) {
 	}
 }
 
-func ShowPopUp(ev *fyne.PointEvent, c fyne.CanvasObject) *widget.PopUp {
+func ShowPopUp(yAlignObj fyne.CanvasObject, ev *fyne.PointEvent, c fyne.CanvasObject) *widget.PopUp {
 	scroll := container.NewScroll(c)
 	contentSize := c.MinSize().AddWidthHeight(theme.ScrollBarSize(), theme.ScrollBarSize())
 	windowSize := Gui.MainWindow.Canvas().Size()
@@ -281,12 +282,16 @@ func ShowPopUp(ev *fyne.PointEvent, c fyne.CanvasObject) *widget.PopUp {
 	if pos.X+c.MinSize().Width+4*theme.Padding() > si.Width {
 		pos.X = si.Width - c.MinSize().Width - 4*theme.Padding()
 	}
+	if yAlignObj != nil {
+		pos.Y = fyne.CurrentApp().Driver().AbsolutePositionForObject(yAlignObj).Y
+	}
+
 	popup.Move(pos)
 	popup.Show()
 	return popup
 }
 
-func CreateCategorySelector(hasNull bool, onSelect func(int64), isSelected func(int64) bool, showAll bool, hasOrderBtn bool) (*colorlabel.ColorLabel, fyne.CanvasObject) {
+func CreateCategorySelector(yAlignObj fyne.CanvasObject, hasNull bool, onSelect func(int64), isSelected func(int64) bool, showAll bool, hasOrderBtn bool) (*colorlabel.ColorLabel, fyne.CanvasObject) {
 	var catData database.CategoryDataType
 	var categories []*database.CategoryDataType
 
@@ -362,7 +367,7 @@ func CreateCategorySelector(hasNull bool, onSelect func(int64), isSelected func(
 							doPopup(ev)
 						}))
 					}
-					widget.ShowPopUpMenuAtPosition(popupMenu, Gui.App.Driver().CanvasForObject(btn), ev1.AbsolutePosition)
+					// widget.ShowPopUpMenuAtPosition(popupMenu, Gui.App.Driver().CanvasForObject(btn), ev1.AbsolutePosition)
 				})
 			}
 			if isSelected(item.Id) {
@@ -374,7 +379,7 @@ func CreateCategorySelector(hasNull bool, onSelect func(int64), isSelected func(
 				c.Add(container.NewBorder(nil, nil, icon, nil, ctrl))
 			}
 		}
-		popup = ShowPopUp(ev, c)
+		popup = ShowPopUp(yAlignObj, ev, c)
 	}
 	btn := menubutton.NewMenuButton("", theme.MoveDownIcon(), func(ev *fyne.PointEvent) {
 		doPopup(ev)

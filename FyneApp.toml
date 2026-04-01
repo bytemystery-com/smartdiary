@@ -4,8 +4,8 @@ Website = "https://github.com/bytemystery-com/smartdiary"
 Icon = "assets/icons/icon.png"
 Name = "SmartDiary"
 ID = "com.bytemystery.smartdiary2"
-Version = "0.3.5"
-Build = 247
+Version = "0.3.6"
+Build = 259
 
 [LinuxAndBSD]
 GenericName = "SmartDiary"

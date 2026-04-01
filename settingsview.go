@@ -67,7 +67,7 @@ func NewSettingsView() *SettingsView {
 	s.specialDay3 = widget.NewSelect(weekdays, nil)
 
 	var catContent fyne.CanvasObject
-	s.category, catContent = CreateCategorySelector(false, func(id int64) {
+	s.category, catContent = CreateCategorySelector(nil, false, func(id int64) {
 		s.defCategory = id
 	}, func(id int64) bool {
 		return id == s.defCategory
@@ -93,7 +93,7 @@ func NewSettingsView() *SettingsView {
 		s.categoryEdit.SetText(str)
 	}
 	var catContentEdit fyne.CanvasObject
-	s.categoryEdit, catContentEdit = CreateCategorySelector(false, func(id int64) {
+	s.categoryEdit, catContentEdit = CreateCategorySelector(nil, false, func(id int64) {
 		s.editCategory = id
 		cat := CategoryMap[s.editCategory]
 		if cat != nil {

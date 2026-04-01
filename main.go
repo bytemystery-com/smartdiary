@@ -25,6 +25,9 @@
 package main
 
 import (
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/mytheme"
+	"bytemystery-com/smartdiary/util"
 	"embed"
 	"errors"
 	"flag"
@@ -36,10 +39,6 @@ import (
 	"path"
 	"strings"
 	"time"
-
-	"bytemystery-com/smartdiary/database"
-	"bytemystery-com/smartdiary/mytheme"
-	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -446,7 +445,7 @@ func CheckForUpdate(notify bool) {
 		} else {
 			if !notify {
 				fyne.Do(func() {
-					dialog.ShowInformation(lang.X("update.title", "Update"), lang.X("update.nonew", "You are alread running the latest version."), Gui.MainWindow)
+					dialog.ShowInformation(lang.X("update.title", "Update"), lang.X("update.nonew", "You are already running the latest version."), Gui.MainWindow)
 				})
 			}
 		}

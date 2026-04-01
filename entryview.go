@@ -171,7 +171,7 @@ func NewEntryView() *EntryView {
 				}
 				c.Add(container.NewHBox(icon, ctrl))
 			}
-			popup = ShowPopUp(ev, c)
+			popup = ShowPopUp(nil, ev, c)
 		}
 	})
 	e.markIcons = make([]*fyne.StaticResource, 0, len(Gui.IconMarks))
@@ -222,7 +222,7 @@ func NewEntryView() *EntryView {
 		if hBox != nil {
 			c.Add(hBox)
 		}
-		popup = ShowPopUp(ev, c)
+		popup = ShowPopUp(nil, ev, c)
 	})
 	e.protected = widget.NewCheck(lang.X("entry.protected", "Protected"), func(b bool) {
 		if e.data != nil {
@@ -283,7 +283,7 @@ func (e *EntryView) rowsNeeded(str string) int {
 }
 
 func (e *EntryView) createCategorySelector(hasNull bool) (*colorlabel.ColorLabel, fyne.CanvasObject) {
-	category, content := CreateCategorySelector(hasNull, func(id int64) {
+	category, content := CreateCategorySelector(e.entry, hasNull, func(id int64) {
 		if hasNull {
 			if id == -1 {
 				e.resetCategory2UI()
