@@ -4,11 +4,14 @@ Website = "https://github.com/bytemystery-com/smartdiary"
 Icon = "assets/icons/icon.png"
 Name = "SmartDiary"
 ID = "com.bytemystery.smartdiary2"
-Version = "0.4.1"
-Build = 271
+Version = "0.4.2"
+Build = 277
 
 [LinuxAndBSD]
 GenericName = "SmartDiary"
 Categories = ["Education"]
 Comment = "SmartDiary"
 Keywords = ["diary"]
+
+[Migrations]
+fyneDo = true

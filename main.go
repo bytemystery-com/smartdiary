@@ -25,9 +25,6 @@
 package main
 
 import (
-	"bytemystery-com/smartdiary/database"
-	"bytemystery-com/smartdiary/mytheme"
-	"bytemystery-com/smartdiary/util"
 	"embed"
 	"errors"
 	"flag"
@@ -39,6 +36,10 @@ import (
 	"path"
 	"strings"
 	"time"
+
+	"bytemystery-com/smartdiary/database"
+	"bytemystery-com/smartdiary/mytheme"
+	"bytemystery-com/smartdiary/util"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -526,9 +527,11 @@ func doExport(fDone func(error)) {
 			dia.SetFilter(filter)
 		}
 		dia.Show()
-		si := Gui.MainWindow.Canvas().Size()
-		var windowScale float32 = 1.0
-		dia.Resize(fyne.NewSize(si.Width*windowScale, si.Height*windowScale))
+		if Gui.IsDesktop {
+			si := Gui.MainWindow.Canvas().Size()
+			var windowScale float32 = 1.0
+			dia.Resize(fyne.NewSize(si.Width*windowScale, si.Height*windowScale))
+		}
 	})
 }
 
@@ -591,7 +594,9 @@ func doImport(fDone func(error)) {
 		dia.SetFilter(filter)
 	}
 	dia.Show()
-	si := Gui.MainWindow.Canvas().Size()
-	var windowScale float32 = 1.0
-	dia.Resize(fyne.NewSize(si.Width*windowScale, si.Height*windowScale))
+	if Gui.IsDesktop {
+		si := Gui.MainWindow.Canvas().Size()
+		var windowScale float32 = 1.0
+		dia.Resize(fyne.NewSize(si.Width*windowScale, si.Height*windowScale))
+	}
 }

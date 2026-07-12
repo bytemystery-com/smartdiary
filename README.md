@@ -33,15 +33,15 @@ Also yo can mark an entry as protected so a password must be given to see such e
 
 ### Precompiled binaries
 #### Linux (64 Bit)
-[Tar file](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.1/SmartDiary.tar.xz)  
-[Standalone binary](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.1/smartdiary)  
+[Tar file](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.2/SmartDiary.tar.xz)  
+[Standalone binary](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.2/smartdiary)  
 #### Windows (64 Bit)
-[Standalone exe](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.1/SmartDiary.exe)  
+[Standalone exe](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.2/SmartDiary.exe)  
 #### Mac
 Not available - it could be build but requires Mac + SDK.
 #### Android 
-[APK all in one](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.1/SmartDiary.apk)  
-[APK only 64 bit](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.1/SmartDiary_64.apk)  
+[APK all in one](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.2/SmartDiary.apk)  
+[APK only 64 bit](https://github.com/bytemystery-com/smartdiary/releases/download/v0.4.2/SmartDiary_64.apk)  
 
 ## Q & A
 Q: What is the default password ?  
